@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: notes-config
+data:
+  DB_HOST: "notes-db"
+  DB_PORT: "5432"
