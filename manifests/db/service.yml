@@ -1,0 +1,19 @@
+# ============================================
+# service.yml — Service de Postgres
+# ClusterIP: solo accesible dentro del cluster
+# ============================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+  namespace: devops-portfolio
+  labels:
+    app: postgres
+spec:
+  type: ClusterIP
+  selector:
+    app: postgres
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: 5432
