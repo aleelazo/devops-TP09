@@ -19,7 +19,11 @@ kubectl apply -f k8s/base/05-configmap.yml -n "$ENV"
 kubectl apply -f k8s/base/06-backend-deployment.yml -n "$ENV"
 kubectl apply -f k8s/base/07-backend-service.yml -n "$ENV"
 kubectl apply -f k8s/base/08-frontend-deployment.yml -n "$ENV"
-kubectl apply -f k8s/base/09-frontend-service.yml -n "$ENV"
+if [ "$ENV" = "staging" ]; then
+    kubectl apply -f k8s/base/09-frontend-service.yml -n "$ENV"
+else
+    sed 's/nodePort: 30080/nodePort: 30081/' k8s/base/09-frontend-service.yml | kubectl apply -n "$ENV" -f -
+fi
 
 echo "Esperando consolidación de despliegue en $ENV..."
 kubectl rollout status deployment/notes-backend -n "$ENV" --timeout=60s

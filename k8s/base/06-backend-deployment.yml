@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: TU_USUARIO_DOCKERHUB/devops-portfolio:v1.0.0
+          image: aleelazo/devops-portfolio:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5000
@@ -30,6 +30,17 @@ spec:
                 name: notes-config
             - secretRef:
                 name: notes-secret
+          env:
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: notes-secret
+                  key: POSTGRES_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: notes-secret
+                  key: POSTGRES_PASSWORD
           readinessProbe:
             httpGet:
               path: /health
